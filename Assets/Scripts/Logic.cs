@@ -6,9 +6,8 @@ using UnityEngine;
 
 public class Logic : MonoBehaviour
 {
-    
     // config
-    public MyScriptableObject config;
+    public Config config;
     public SecretWord secretWord;
     public Parser parser;
     public Text attempts, scores, message, help;
@@ -39,11 +38,13 @@ public class Logic : MonoBehaviour
                     ResetGame();
                     wordSelector.GetNextWord();
                     secretWord.DrawWord(wordSelector.secret);
-                    help.text = wordSelector.secret;
+                    
+                    help.text = SentenceFinder.GetSentence(ref parser.textAsset, wordSelector.secret);
                     state = States.Playing;
                 }
                 break;
             case States.Playing:
+                if (Input.GetKeyDown(KeyCode.Space)) state = States.LevelSuccess;
                 if (clickedBttn != null)
                 {
                     if (answerIsRight)
@@ -69,7 +70,7 @@ public class Logic : MonoBehaviour
                 {
                     StartCoroutine(ShowMessage("Win!", 1));
                     secretWord.DrawWord(wordSelector.secret);
-                    help.text = wordSelector.secret;
+                    help.text = SentenceFinder.GetSentence(ref parser.textAsset, wordSelector.secret);
                     state = States.Playing;
                 }
                 break;
@@ -86,9 +87,6 @@ public class Logic : MonoBehaviour
                 state = States.GameStart;
                 break;
         }
-
-        // for testing 
-        //if (state != lastState) { statesHistory.Add(lastState.ToString()); lastState = state; }
     }
 
     void HandleClick(Button bttn)

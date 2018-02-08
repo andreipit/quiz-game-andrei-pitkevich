@@ -4,14 +4,13 @@ using System.Linq;
 
 public class WordsSelector : MonoBehaviour
 {
-
     // config
-    public MyScriptableObject config;
+    public Config config;
 
     // state
-    public Dictionary<string, int>          wordsFrequency = new Dictionary<string, int>();
-    public List<KeyValuePair<string, int>>  wordsFrequencySorted = new List<KeyValuePair<string, int>>();
-    public List<string>                     wordsUnique = new List<string>();
+    Dictionary<string, int>          wordsFrequency = new Dictionary<string, int>();
+    List<KeyValuePair<string, int>>  wordsFrequencySorted = new List<KeyValuePair<string, int>>();
+    List<string>                     wordsUnique = new List<string>();
 
     public bool poolIsEmpty;
     public string secret;
@@ -38,16 +37,16 @@ public class WordsSelector : MonoBehaviour
     {
         switch (config.wordSelectStrategy)
         {
-            case MyScriptableObject.States.onlyUniqueRandom:// select only unique
+            case Config.States.onlyUniqueRandom:// select only unique
                 foreach (KeyValuePair<string, int> pair in wordsFrequency)
                 {
                     if (pair.Value == 1) wordsUnique.Add(pair.Key);
                 }
                 break;
-            case MyScriptableObject.States.mostPopular:
+            case Config.States.mostPopular:
                 SortByFrequency();
                 break;
-            case MyScriptableObject.States.lessPopular:// sort by frequency
+            case Config.States.lessPopular:
                 SortByFrequency();
                 break;
         }
@@ -58,13 +57,13 @@ public class WordsSelector : MonoBehaviour
     {
         switch (config.wordSelectStrategy)
         {
-            case MyScriptableObject.States.onlyUniqueRandom:
+            case Config.States.onlyUniqueRandom:
                 wordsPool = new List<string>(wordsUnique);
                 break;
-            case MyScriptableObject.States.mostPopular:
+            case Config.States.mostPopular:
                 wordsFrequencySorted.ForEach(x => wordsPool.Add(x.Key));
                 break;
-            case MyScriptableObject.States.lessPopular:
+            case Config.States.lessPopular:
                 List<KeyValuePair<string, int>> dict = new List<KeyValuePair<string, int>>(wordsFrequencySorted);
                 dict.Reverse();
                 dict.ForEach(x => wordsPool.Add(x.Key));
@@ -76,7 +75,7 @@ public class WordsSelector : MonoBehaviour
     {
         switch (config.wordSelectStrategy)
         {
-            case MyScriptableObject.States.onlyUniqueRandom:
+            case Config.States.onlyUniqueRandom:
                 poolIsEmpty = false;
                 List<string> list = new List<string>(wordsPool);// temp list for iterating and remove simultaneously
                 int rand = UnityEngine.Random.Range(0, wordsPool.Count);
@@ -94,7 +93,7 @@ public class WordsSelector : MonoBehaviour
                 secret = "";
                 poolIsEmpty = true;
                 break;
-            case MyScriptableObject.States.mostPopular:
+            case Config.States.mostPopular:
                 poolIsEmpty = false;
                 if (wordsPool.Count == 0)
                 {
@@ -107,7 +106,7 @@ public class WordsSelector : MonoBehaviour
                     wordsPool.Remove(secret);
                 }
                 break;
-            case MyScriptableObject.States.lessPopular:
+            case Config.States.lessPopular:
                 poolIsEmpty = false;
                 if (wordsPool.Count == 0)
                 {
@@ -123,12 +122,10 @@ public class WordsSelector : MonoBehaviour
         }
     }
 
-    void SortByFrequency() // from dictionary => sorted list, eg { ("to", 729), ("and", 872), ("the", 1562) }
+    void SortByFrequency() // from dictionary makes => sorted list, eg { ("to", 729), ("and", 872), ("the", 1562) }
     {
         List<KeyValuePair<string, int>> myList = wordsFrequency.ToList();
         myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
         wordsFrequencySorted = myList;
-        /*For Testing*///foreach (KeyValuePair<string, int> pair in wordsFrequencySorted) Debug.Log(pair.Key + " = " + pair.Value);
     }
-
 }

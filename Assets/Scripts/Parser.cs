@@ -5,11 +5,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-public class Parser : MonoBehaviour {
-
+public class Parser : MonoBehaviour
+{
     // config
-    public MyScriptableObject config;
+    public Config config;
     public WordsSelector wordSelector;
+
+    // state
+    [HideInInspector]public string textAsset;
 
     void Awake ()
     {
@@ -25,7 +28,7 @@ public class Parser : MonoBehaviour {
         yield return request;
 
         TextAsset textAssetObject = request.asset as TextAsset;
-        string textAsset = textAssetObject.text;
+        textAsset = textAssetObject.text;
 
         ParseText(ref textAsset);
     }

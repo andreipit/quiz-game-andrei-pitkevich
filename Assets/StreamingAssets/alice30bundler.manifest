@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 478267210
+CRC: 2753217438
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 72ce1bc224eb8f187f06b61a89bbfbf8
+    Hash: 3ac3fe4d215aa9956ec5a4dfcf34c340
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -13,5 +13,4 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Resources/alice30.txt
-- Assets/Resources/tasks.txt
 Dependencies: []

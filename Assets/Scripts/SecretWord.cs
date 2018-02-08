@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SecretWord : MonoBehaviour
 {
-
     // config
     public RectTransform wordPanel;
     public GameObject prefab;
@@ -51,5 +50,4 @@ public class SecretWord : MonoBehaviour
         }
         return i;
     }
-
 }

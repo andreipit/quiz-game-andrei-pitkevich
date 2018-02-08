@@ -1,3 +1,0 @@
-?1) help sentances
-+2) async
-3) get word by frequency: a) most random or b) most often
