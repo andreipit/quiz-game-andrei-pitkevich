@@ -42,7 +42,7 @@ public class Logic : MonoBehaviour
         {
             case States.GameStart:
                 ResetGame();
-                GetRandomWord();
+                GetNextWord();
                 secretWord.DrawWord(secret);
                 help.text = secret;
                 state = States.Playing;
@@ -64,7 +64,7 @@ public class Logic : MonoBehaviour
                 break;
             case States.NextLevelStart:
                 ResetLevel();
-                GetRandomWord();
+                GetNextWord();
                 if (poolIsEmpty)
                 {
                     state = States.GameSuccess;
@@ -112,7 +112,21 @@ public class Logic : MonoBehaviour
 
     void ResetGame()
     {
-        wordsPool = new List<string>(parser.uniqueWords);
+        switch (config.wordSelectStrategy)
+        {
+            case MyScriptableObject.States.onlyUnique:
+                wordsPool = new List<string>(parser.onlyUnique);
+                break;
+            case MyScriptableObject.States.mostPopular:
+                parser.wordsFrequencySorted.ForEach(x => wordsPool.Add(x.Key));
+                break;
+            case MyScriptableObject.States.lessPopular:
+                List<KeyValuePair<string, int>> dict = new List<KeyValuePair<string, int>>(parser.wordsFrequencySorted);
+                dict.Reverse();
+                dict.ForEach(x => wordsPool.Add(x.Key));
+                break;
+        }
+
         ShowFullAlphabet();
         scores.text = "0";
         attempts.text = config.maxAttempts.ToString();
@@ -133,24 +147,55 @@ public class Logic : MonoBehaviour
         }
     }
 
-    void GetRandomWord()
+    void GetNextWord()
     {
-        poolIsEmpty = false;
-        List<string> list = new List<string>(wordsPool);
-        int rand = UnityEngine.Random.Range(0, wordsPool.Count);
-        int i = 0;
-        foreach (string s in list)
+        switch (config.wordSelectStrategy)
         {
-            if (i==rand)
-            {
-                secret = s;
-                wordsPool.Remove(s);
-                return;
-            }
-            i++;
+            case MyScriptableObject.States.onlyUnique:
+                poolIsEmpty = false;
+                List<string> list = new List<string>(wordsPool);// temp list for iterating and remove simultaneously
+                int rand = UnityEngine.Random.Range(0, wordsPool.Count);
+                int i = 0;
+                foreach (string s in list)
+                {
+                    if (i == rand)
+                    {
+                        secret = s;
+                        wordsPool.Remove(s);
+                        return;
+                    }
+                    i++;
+                }
+                secret = "";
+                poolIsEmpty = true;
+                break;
+            case MyScriptableObject.States.mostPopular:
+                poolIsEmpty = false;
+                if (wordsPool.Count == 0)
+                {
+                    secret = "";
+                    poolIsEmpty = true;
+                }
+                else
+                {
+                    secret = wordsPool.Last();
+                    wordsPool.Remove(secret);
+                }
+                break;
+            case MyScriptableObject.States.lessPopular:
+                poolIsEmpty = false;
+                if (wordsPool.Count == 0)
+                {
+                    secret = "";
+                    poolIsEmpty = true;
+                }
+                else
+                {
+                    secret = wordsPool.Last();
+                    wordsPool.Remove(secret);
+                }
+                break;
         }
-        secret = "";
-        poolIsEmpty = true;
     }
 
     void IncreaseScores()
