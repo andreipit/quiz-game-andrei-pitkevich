@@ -6135,6 +6135,7 @@ GameObject:
   - component: {fileID: 2127427309}
   - component: {fileID: 2127427308}
   - component: {fileID: 2127427307}
+  - component: {fileID: 2127427310}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Untagged
@@ -6168,7 +6169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordPanel: {fileID: 1686632819}
   prefab: {fileID: 1207780297059320, guid: a75720d418e58354fabea20cb12cc733, type: 2}
-  activeBttns: []
 --- !u!114 &2127427308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6181,7 +6181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 1965b80899c22b346b0f793c1acde0ce, type: 2}
-  uniqueWords: []
+  wordSelector: {fileID: 2127427310}
 --- !u!114 &2127427309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6227,11 +6227,21 @@ MonoBehaviour:
   - {fileID: 2146990903}
   - {fileID: 922951889}
   - {fileID: 1602581753}
-  wordsPool: []
-  secret: 
+  wordSelector: {fileID: 2127427310}
   state: 0
-  statesHistory: []
-  lastState: 0
+--- !u!114 &2127427310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2127427305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3ff3892b4ab604aad551601c506db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 1965b80899c22b346b0f793c1acde0ce, type: 2}
+  onlyUnique: []
 --- !u!1 &2146990901
 GameObject:
   m_ObjectHideFlags: 0

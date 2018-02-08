@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minWordLength: 2
   maxAttempts: 3
-  wordSelectStrategy: 2
+  wordSelectStrategy: 1

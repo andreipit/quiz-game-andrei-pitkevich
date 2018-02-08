@@ -7,7 +7,7 @@ public class MyScriptableObject : ScriptableObject
 
     public int minWordLength, maxAttempts;
 
-    public enum States { onlyUnique, mostPopular, lessPopular };
-    public States wordSelectStrategy = States.onlyUnique;
+    public enum States { onlyUniqueRandom, mostPopular, lessPopular };
+    public States wordSelectStrategy = States.onlyUniqueRandom;
  
 }

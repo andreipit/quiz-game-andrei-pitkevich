@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class SecretWord : MonoBehaviour {
+public class SecretWord : MonoBehaviour
+{
 
     // config
     public RectTransform wordPanel;
